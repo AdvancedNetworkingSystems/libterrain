@@ -3,7 +3,6 @@ from shapely.affinity import rotate, translate, scale
 from random import choice
 import math
 import copy
-import numpy as np
 import math as m
 
 
@@ -37,7 +36,9 @@ class Link:
         self.loss, self.status = self._loss_calculator()
 
     def _calc_angles(self, src, trg):
-        rel_pos = np.subtract(trg, src)
+        rel_pos = [0,0,0]
+        for i in range(0,3):
+            rel_pos[i] = trg[i] - src[i]
         yaw = m.atan2(rel_pos[1], rel_pos[0])
         pitch = m.atan2(rel_pos[2], self.distance)
         #yaw and pitch are in the range -pi - pi
