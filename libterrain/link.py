@@ -36,8 +36,8 @@ class Link:
         self.loss, self.status = self._loss_calculator()
 
     def _calc_angles(self, src, trg):
-        rel_pos = [0,0,0]
-        for i in range(0,3):
+        rel_pos = [0, 0, 0]
+        for i in range(0, 3):
             rel_pos[i] = trg[i] - src[i]
         yaw = m.atan2(rel_pos[1], rel_pos[0])
         pitch = m.atan2(rel_pos[2], self.distance)

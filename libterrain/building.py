@@ -38,6 +38,7 @@ class Building(Base):
         obj = {}
         obj['coords'] = self.coords()
         obj['height'] = self.height
+        obj['building'] = self
         return obj
 
 

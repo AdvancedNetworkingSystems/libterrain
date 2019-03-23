@@ -37,10 +37,10 @@ class BaseInterface():
 
     def _profile_osm(self, param_dict, conn):
         # loop over all the orders that we have and process them sequentially.
-        src = param_dict['src']['coords']  # coords must be shapely point
-        src_h = param_dict['src']['height']
-        dst = param_dict['dst']['coords']  # coords must be shapely point
-        dst_h = param_dict['dst']['height']
+        src = param_dict['src']  # coords must be shapely point
+        #src_h = param_dict['src']['height']
+        dst = param_dict['dst']  # coords must be shapely point
+        #dst_h = param_dict['dst']['height']
         srid = param_dict['srid']
         lidar_table = param_dict['lidar_table']
         buff = param_dict['buff']
@@ -80,7 +80,7 @@ class BaseInterface():
                             lidar.distance,
                             lidar.z
                             FROM lidar ORDER BY lidar.distance;
-                        """.format(srid, lidar_table, src.wkt, dst.wkt, buff)
+                        """.format(srid, lidar_table, src['coords'].wkt, dst['coords'].wkt, buff)
         cur.execute(query)
         q_result = cur.fetchall()
         if cur.rowcount == 0:
@@ -94,7 +94,7 @@ class BaseInterface():
         d = [float(i) for i in d]
         profile = list(zip(d, y))
         try:
-            phy_link = Link(profile, src, dst, src_h, dst_h)
+            phy_link = Link(profile, src['coords'], dst['coords'], src['height'], dst['height'])
             if phy_link and phy_link.loss > 0:
                 link = {}
                 link['src'] = src
