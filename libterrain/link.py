@@ -35,7 +35,7 @@ class Link:
         self.Aorient = self._calc_angles(self.pA, self.pB)
         self.Borient = self._calc_angles(self.pB, self.pA)
         self.loss, self.status = self._loss_calculator()
-        
+
     def _calc_angles(self, src, trg):
         rel_pos = np.subtract(trg, src)
         yaw = m.atan2(rel_pos[1], rel_pos[0])

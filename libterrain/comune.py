@@ -32,7 +32,7 @@ class Comune(Base):
         element = session.query(cls) \
             .filter_by(gid=gid).first()
         return element
-    
+
     @classmethod
     def get_by_name(cls, session, name):
         """Get building by gid
