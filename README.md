@@ -81,7 +81,7 @@ The same as the Single Thread interface, but dst_list is a list of dst object.
 It returns a list of links.
 
 # Code example:
-```
+```python
 import libterrain
 DSN = "postgres://student@192.168.1.196/terrain_ans"
 BI = libterrain.BuildingInterface.get_best_interface(DSN, "vaiano")
