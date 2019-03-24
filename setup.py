@@ -1,5 +1,5 @@
 import sys
-from distutils.core import setup
+from setuptools import setup
 
 if sys.argv[-1] == 'setup.py':
     print("To install, run 'python setup.py install'\n")

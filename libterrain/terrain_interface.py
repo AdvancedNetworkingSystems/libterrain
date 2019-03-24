@@ -120,12 +120,12 @@ class ParallelTerrainInterface(BaseInterface):
         self.workers_query_result_q = mp.Queue()
         self.conns = [self.tcp.getconn() for i in range(processes)]
         for i in range(self.processes):
-            t = mp.Process(target=self.querty_worker, args=[self.conns[i]])
+            t = mp.Process(target=self._query_worker, args=[self.conns[i]])
             self.querier.append(t)
             t.daemon = True
             t.start()
 
-    def querty_worker(self, conn):
+    def _query_worker(self, conn):
         while(True):
             order = self.workers_query_order_q.get(block=True)
             link = self._profile_osm(order, conn)
