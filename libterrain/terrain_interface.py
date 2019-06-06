@@ -73,12 +73,16 @@ class BaseInterface():
                                 ST_Distance(pts::geometry,
                                             ST_GeomFromText('{2}', {0}),
                                             true
-                                            ) as distance
+                                            ) as distance,
+                                PC_Get(pts, 'x') AS long,
+                                PC_Get(pts, 'y') AS lat
                                 FROM building_pts
                                 )
                             SELECT DISTINCT on (lidar.distance)
                             lidar.distance,
-                            lidar.z
+                            lidar.z,
+                            lidar.long,
+                            lidar.lat
                             FROM lidar ORDER BY lidar.distance;
                         """.format(srid, lidar_table, src['coords'].wkt, dst['coords'].wkt, buff)
         cur.execute(query)
@@ -89,7 +93,7 @@ class BaseInterface():
         # TODO: Maybe DBMS can clean this up
         profile = filter(lambda a: a[0] != -9999, q_result)
         # cast everything to float
-        d, y = zip(*profile)
+        d, y, lat, long = zip(*profile)
         y = [float(i) for i in y]
         d = [float(i) for i in d]
         profile = list(zip(d, y))
@@ -102,11 +106,15 @@ class BaseInterface():
                 link['loss'] = phy_link.loss
                 link['src_orient'] = phy_link.Aorient
                 link['dst_orient'] = phy_link.Borient
+                if(param_dict['latlong']):
+                    link['profile'] = list(zip(
+                                                [float(i) for i in lat],
+                                                [float(i) for i in long],
+                                                y))
                 return link
         except (ZeroDivisionError, ProfileException) as e:
             pass
         return None
-
 
 class ParallelTerrainInterface(BaseInterface):
     def __init__(self, DSN, lidar_table, processes=2):
@@ -164,7 +172,8 @@ class SingleTerrainInterface(BaseInterface):
             'dst': destination,
             'srid': self.srid,
             'lidar_table': self.lidar_table,
-            'buff': self.buff
+            'buff': self.buff,
+            'latlong': true
         }
         profile = self._profile_osm(params, self.conn)
         return profile
