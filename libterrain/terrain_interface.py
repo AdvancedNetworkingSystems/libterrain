@@ -147,7 +147,8 @@ class ParallelTerrainInterface(BaseInterface):
                    'dst': dst_list[i],
                    'srid': self.srid,
                    'lidar_table': self.lidar_table,
-                   'buff': self.buff
+                   'buff': self.buff,
+                   'latlong': False
                    }for i in range(len(dst_list))]
         # add orders in the queue
         for order in params:
@@ -173,7 +174,7 @@ class SingleTerrainInterface(BaseInterface):
             'srid': self.srid,
             'lidar_table': self.lidar_table,
             'buff': self.buff,
-            'latlong': true
+            'latlong': True
         }
         profile = self._profile_osm(params, self.conn)
         return profile
