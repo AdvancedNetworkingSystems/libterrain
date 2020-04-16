@@ -57,7 +57,7 @@ class Building_CTR(Building):
 
 
 class Building_OSM(Building):
-    __tablename__ = 'osm_centro'
+    __tablename__ = 'osm_buildings_3003'
     osm_id = Column(Integer)
     code = Column(Integer)
     fclass = Column(String)

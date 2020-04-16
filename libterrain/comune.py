@@ -8,14 +8,11 @@ Base = declarative_base()
 
 
 class Comune(Base):
-    __tablename__ = 'comuni_toscana'
+    __tablename__ = 'comuni'
     gid = Column(Integer, primary_key=True)
-    nome = Column(String)
-    codcom = Column(String)
-    codcatasto = Column(String)
-    sigla_prov = Column(String)
-    distr_asl = Column(String)
-    asl = Column(String)
+    comune = Column(String)
+    pro_com_t = Column(String)
+    cod_prov = Column(String)
     geom = Column(Geometry('POLYGON'))
 
     def __repr__(self):
@@ -39,5 +36,5 @@ class Comune(Base):
         gid: identifier of building
         """
         element = session.query(cls) \
-            .filter_by(nome=name).first()
+            .filter_by(comune=name).first()
         return element

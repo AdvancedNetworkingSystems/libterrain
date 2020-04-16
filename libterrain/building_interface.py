@@ -13,8 +13,8 @@ class BuildingInterface():
         self.session = Session()
         self.srid = srid
 
-    def get_province_area(self, name):
-        comune = Comune.get_by_name(self.session, name.upper())
+    def get_area(self, name):
+        comune = Comune.get_by_name(self.session, name)
         return comune.shape()
 
     @classmethod
@@ -24,9 +24,11 @@ class BuildingInterface():
         OSM = OSMInterface(DSN)
         if(CTR.count_buildings(area) > OSM.count_buildings(area)):
             print("Choosed CTR")
+            CTR.area = area
             return CTR
         else:
             print("Choosed OSM")
+            OSM.area = area
             return OSM
 
 
